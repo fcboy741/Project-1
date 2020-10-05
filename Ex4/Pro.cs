@@ -17,8 +17,8 @@ namespace _04_generic_example
 
 
 
-            rep1.Add(new Class("19DTHQA1"));
-            rep1.Add(new Class("19DTHQA2"));
+            rep1.Add(new Class("18DTHQA1"));
+            rep1.Add(new Class("18DTHQA2"));
 
             rep.Add(new Student("AAA", 11));
             rep.Add(new Student("BBB", 22));
