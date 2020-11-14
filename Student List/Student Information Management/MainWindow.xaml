@@ -22,7 +22,7 @@
             <MenuItem Header="Student">
                 <MenuItem Header="Students list"/>
                 <MenuItem Header="Create new student" Command="{Binding Path=MenuCommand}"/>
-                <MenuItem Header="Delete student(s)"/>
+                <MenuItem Header="Delete student(s)" Command="{Binding Path=DeleteStudent}"/>
             </MenuItem>
             <MenuItem Header="Class"/>
             <MenuItem Header="Help"/>
@@ -45,7 +45,7 @@
             <Button Grid.Column="3" Content="Reset" Margin="10,5,5,5" Command="{Binding Path=ResetCommand}"/>
         </Grid>
 
-        <DataGrid Grid.Row="3" Margin="0,10,0,0" ItemsSource="{Binding StudentList}"/>
+        <DataGrid Grid.Row="3" Margin="0,10,0,0" ItemsSource="{Binding StudentList}" SelectedValue="{Binding Path=SelectStudent}"/> 
 
     </Grid>
 </Window>

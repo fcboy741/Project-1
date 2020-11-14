@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -31,11 +32,10 @@ namespace Student_Information_Management.ViewModel
             return student;
         }
 
-        public List<Class> GetAllClasses()
+        public List<string> GetAllClasses()
         {
             // TODO: Retrieve listt class from list student
-
-            return new List<Class>();
+            return _data.Select(s => s.Class).Distinct().ToList();
         }
 
         public void Remove(int studentId)
@@ -67,5 +67,6 @@ namespace Student_Information_Management.ViewModel
 
             return updateStudent;
         }
+
     }
 }

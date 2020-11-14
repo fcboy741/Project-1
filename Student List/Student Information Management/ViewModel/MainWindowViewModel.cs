@@ -13,9 +13,9 @@ namespace Student_Information_Management.ViewModel
 {
     class MainWindowViewModel : BaseViewModel
     {
-        private string _SearchBox;
-        private List<string> _ListClass = new List<string> { "18DTHQA1", "18DTHQA2", "18DTHQA3" };
         private string _SelectedClass;
+
+        public ObservableCollection<String> ClassList { get; set; }
 
         public MainWindowViewModel()
         {
@@ -23,9 +23,11 @@ namespace Student_Information_Management.ViewModel
             ResetCommand = new RelayCommand(o => Reset(), o => !string.IsNullOrEmpty(SearchBox)|| !string.IsNullOrEmpty(_SelectedClass));
             SearchCommand = new RelayCommand(o => Search(), o => !string.IsNullOrEmpty(SearchBox)|| !string.IsNullOrEmpty(_SelectedClass));
             MenuCommand = new RelayCommand(o => Menu());
+            DeleteStudent = new RelayCommand(o => Delete(), o => SelectStudent != null);
             
             StudentService = new StudentService();
             StudentList = new ObservableCollection<Student>(StudentService.SearchStudent(new StudentSearchCriteria()));
+            ListClass = new List<string>(StudentService.GetAllClasses());
         }
 
 
@@ -42,13 +44,16 @@ namespace Student_Information_Management.ViewModel
                 
             }
         }
+        private string _SearchBox;
+        private List<string> _ListClass = new List<string>();
         public List<string> ListClass { get => _ListClass; set => _ListClass = value; }
         public string SelectedClass { get => _SelectedClass; set =>     _SelectedClass = value; }
+         public ICommand ResetCommand { get; set; }
+        public Student SelectStudent { get; set; }
 
-        public ICommand ResetCommand { get; set; }
         public void Reset()
         {
-            SearchBox = string.Empty;
+            SearchBox = "";
             SelectedClass = null;
             StudentList.Clear();
             var result = StudentService.SearchStudent(new StudentSearchCriteria { SearchText = SearchBox, ClassName = SelectedClass });
@@ -75,8 +80,19 @@ namespace Student_Information_Management.ViewModel
             Window window = new NewStudent();
             window.ShowDialog();
         }
+        public ICommand DeleteStudent { get; set; }
         public StudentService StudentService { get; set; }
 
+        public void Delete()
+        {
+            StudentService.Remove(SelectStudent.StudentId); 
+            StudentList.Clear();
+            var result = StudentService.SearchStudent(new StudentSearchCriteria { SearchText = SearchBox, ClassName = SelectedClass });
+            foreach (var item in result)
+            {
+                StudentList.Add(item);
+            }
+        }
         public ObservableCollection<Student> StudentList { get; set; }
     }
 
